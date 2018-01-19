@@ -10,8 +10,6 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
      EditText txtSearch,txtNoDept,txtNoRegion,txtNom,txtNomStd,txtSurface,txtDateCreation,txtChefLieu,txtUrlWiki;
-
-
      SQLiteDatabase db;
 
 
@@ -32,30 +30,24 @@ public class MainActivity extends AppCompatActivity {
 
         DbInit dbInit = new DbInit(this);
         db = dbInit.getWritableDatabase();
-
-
-
-
-
     }
 
 
     public void btnSearch(View v){
 
-        Departement d = new Departement(this);
+        Departement departement = new Departement(this);
         try {
-            //Toast.makeText(this, "ok",Toast.LENGTH_LONG).show();
 
-            d.select(txtSearch.getText().toString());
+            departement.select(txtSearch.getText().toString());
 
-            txtNoDept.setText(d.getNoDept().toString());
-            txtNoRegion.setText(String.valueOf(d.getNoRegion()));
-            txtNom.setText(d.getNom().toString());
-            txtNomStd.setText(d.getNomStd().toString());
-           txtSurface.setText(String.valueOf(d.getSurface()));
-            txtDateCreation.setText(d.getDateCréation().toString());
-            txtChefLieu.setText(d.getChefLieu().toString());
-           txtUrlWiki.setText(d.getUrlWiki().toString());
+            txtNoDept.setText(departement.getNoDept().toString());
+            txtNoRegion.setText(String.valueOf(departement.getNoRegion()));
+            txtNom.setText(departement.getNom().toString());
+            txtNomStd.setText(departement.getNomStd().toString());
+           txtSurface.setText(String.valueOf(departement.getSurface()));
+            txtDateCreation.setText(departement.getDateCréation().toString());
+            txtChefLieu.setText(departement.getChefLieu().toString());
+           txtUrlWiki.setText(departement.getUrlWiki().toString());
 
             Toast.makeText(this, "information trouvé",Toast.LENGTH_LONG).show();
 
@@ -78,9 +70,21 @@ public class MainActivity extends AppCompatActivity {
     }
     public void btnDelete(View v){
 
-    
+        Departement departement = new Departement(this);
 
+        String noDepartEffacer = (txtNoDept.getText().toString());
+        departement.setNoDept(noDepartEffacer);
 
+        if(noDepartEffacer.equals("")) {
+            Toast.makeText(this, "département introuvable", Toast.LENGTH_LONG).show();
+        }
+        try {
+            departement.delete(noDepartEffacer);
+            Toast.makeText(this, "département"+noDepartEffacer+" est effacé",Toast.LENGTH_LONG).show();
+
+        } catch (Exception e) {
+            Toast.makeText(this,"modifiez la saisie",Toast.LENGTH_LONG).show();
+        }
 
 
     }
