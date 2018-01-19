@@ -9,8 +9,8 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-     EditText txtSearch,txtNoDept,txtNoRegion,txtNom,txtNomStd,txtSurface,txtDateCreation,txtChefLieu,txtUrlWiki;
-     SQLiteDatabase db;
+    EditText txtSearch, txtNoDept, txtNoRegion, txtNom, txtNomStd, txtSurface, txtDateCreation, txtChefLieu, txtUrlWiki;
+    SQLiteDatabase db;
 
 
     @Override
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void btnSearch(View v){
+    public void btnSearch(View v) {
 
         Departement departement = new Departement(this);
         try {
@@ -44,18 +44,19 @@ public class MainActivity extends AppCompatActivity {
             txtNoRegion.setText(String.valueOf(departement.getNoRegion()));
             txtNom.setText(departement.getNom().toString());
             txtNomStd.setText(departement.getNomStd().toString());
-           txtSurface.setText(String.valueOf(departement.getSurface()));
+            txtSurface.setText(String.valueOf(departement.getSurface()));
             txtDateCreation.setText(departement.getDateCréation().toString());
             txtChefLieu.setText(departement.getChefLieu().toString());
-           txtUrlWiki.setText(departement.getUrlWiki().toString());
+            txtUrlWiki.setText(departement.getUrlWiki().toString());
 
-            Toast.makeText(this, "information trouvé",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "information trouvé", Toast.LENGTH_LONG).show();
 
         } catch (Exception e) {
-           Toast.makeText(this,"modifiez la saisie",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "modifiez la saisie", Toast.LENGTH_LONG).show();
         }
     }
-    public void btnClear(View v){
+
+    public void btnClear(View v) {
 
         txtSearch.setText("");
         txtNoDept.setText("");
@@ -68,27 +69,56 @@ public class MainActivity extends AppCompatActivity {
         txtUrlWiki.setText("");
 
     }
-    public void btnDelete(View v){
+
+    public void btnDelete(View v) {
 
         Departement departement = new Departement(this);
 
         String noDepartEffacer = (txtNoDept.getText().toString());
         departement.setNoDept(noDepartEffacer);
 
-        if(noDepartEffacer.equals("")) {
+        if (noDepartEffacer.equals("")) {
             Toast.makeText(this, "département introuvable", Toast.LENGTH_LONG).show();
         }
         try {
             departement.delete(noDepartEffacer);
-            Toast.makeText(this, "département"+noDepartEffacer+" est effacé",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "département " + noDepartEffacer + " est effacé", Toast.LENGTH_LONG).show();
 
         } catch (Exception e) {
-            Toast.makeText(this,"modifiez la saisie",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "modifiez la saisie", Toast.LENGTH_LONG).show();
         }
 
-
     }
-    public void btnSave(View v){
+
+    public void btnSave(View v) {
+
+        try {
+            Departement departement = new Departement(this);
+
+            departement.setNoDept(txtNoDept.getText().toString());
+            departement.setNoRegion(Integer.parseInt(txtNoRegion.getText().toString()));
+            departement.setNom(txtNom.getText().toString());
+            departement.setNomStd(txtNomStd.getText().toString());
+            departement.setSurface(Integer.parseInt(txtSurface.getText().toString()));
+            departement.setDateCréation(txtDateCreation.getText().toString());
+            departement.setChefLieu(txtChefLieu.getText().toString());
+            departement.setUrlWiki(txtUrlWiki.getText().toString());
+
+
+            if(txtNoRegion.getText().toString().equals("")){
+
+                departement.insert();
+                Toast.makeText(this,"contact ajouté",Toast.LENGTH_LONG).show();
+            }else {
+                departement.setNoRegion(Integer.parseInt(txtNoRegion.getText().toString()));
+                departement.update();
+                Toast.makeText(this, "contact maj", Toast.LENGTH_LONG).show();
+                
+
+            }
+        } catch (Exception e) {
+            Toast.makeText(this,e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
 
 
     }
