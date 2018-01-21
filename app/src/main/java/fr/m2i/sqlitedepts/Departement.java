@@ -1,5 +1,6 @@
 package fr.m2i.sqlitedepts;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,6 +18,7 @@ public class Departement {
     String noDept, nom, nomStd, dateCréation, chefLieu, urlWiki;
     int noRegion, surface;
     final String COLONNE[] = {"no_dept", "no_region", "nom", "nom_std", "surface", "date_creation", "chef_lieu", "url_wiki"};
+    final String TABLE_DEPARTEMENT = "departements";
 
 
     public SQLiteDatabase getDb() {
@@ -130,6 +132,53 @@ public class Departement {
             //création d'une exception personnalisé suite contact non trouvé lors du query
             throw new Exception();
         }
+    }
+    public void delete(String noDept) throws Exception {
+
+
+        String where = "no_dept = '" + this.noDept + "'";
+        db.delete(TABLE_DEPARTEMENT, where, null);
+
+
+    }
+
+    public void update() throws Exception {
+
+        ContentValues values = new ContentValues();
+
+        values.put("no_dept", this.noDept);
+        values.put("no_region", this.noRegion);
+        values.put("nom", this.nom);
+        values.put("nom_std", this.nomStd);
+        values.put("surface", this.surface);
+        values.put("date_creation", this.dateCréation);
+        values.put("chef_lieu", this.chefLieu);
+        values.put("url_wiki", this.urlWiki);
+
+        String where = "no_dept = '" + noDept + "'";
+
+        db.update(TABLE_DEPARTEMENT, values, where, null);
+
+    }
+
+    public void insert() throws Exception {
+
+        ContentValues values = new ContentValues();
+
+        values.put("no_dept", this.noDept);
+        values.put("no_region", this.noRegion);
+        values.put("nom", this.nom);
+        values.put("nom_std", this.nomStd);
+        values.put("surface", this.surface);
+        values.put("date_creation", this.dateCréation);
+        values.put("chef_lieu", this.chefLieu);
+        values.put("url_wiki", this.urlWiki);
+
+        String where = "no_dept = '" + noDept + "'";
+
+        db.insert(TABLE_DEPARTEMENT, null, values);
+
+
     }
 
 
